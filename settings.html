@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Settings · Addon Forge</title>
+<meta name="description" content="Add an OpenRouter key to turn on live web discovery. The key is stored in this browser only.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230B0C0E'/><rect x='7' y='14' width='18' height='4' rx='1' fill='%23FF5A3D'/><rect x='7' y='21' width='11' height='3' rx='1' fill='%23878E99'/><rect x='7' y='8' width='14' height='3' rx='1' fill='%23878E99'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+  .set { display: grid; gap: var(--sc-5); max-width: 44rem; }
+  .set__row { padding: var(--sc-5); display: grid; gap: var(--sc-3); }
+  .set__row h2 { margin: 0; font-family: var(--sc-font-display); font-size: var(--sc-t-lg); letter-spacing: var(--sc-track-tight); }
+  .set__row p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: var(--sc-leading-body); max-width: 60ch; }
+  .inp {
+    width: 100%; background: var(--sc-canvas); color: var(--sc-ink);
+    border: 1px solid var(--panel-line-strong); border-radius: var(--sc-r-sm);
+    padding: var(--sc-3) var(--sc-4);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-sm);
+    caret-color: var(--sc-accent);
+  }
+  .inp:focus-visible { border-color: var(--sc-accent); }
+  select.inp { appearance: none; cursor: pointer; }
+  .toggles { display: flex; flex-wrap: wrap; gap: var(--sc-2); }
+  .tog {
+    display: inline-flex; align-items: center; gap: var(--sc-2);
+    border: 1px solid var(--panel-line-strong); border-radius: var(--sc-r-pill);
+    min-height: 2.75rem; padding: var(--sc-2) var(--sc-4); cursor: pointer;
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
+    text-transform: uppercase; letter-spacing: 0.06em; color: var(--sc-ink-soft);
+    transition: color 140ms var(--sc-ease-out), border-color 140ms var(--sc-ease-out);
+  }
+  .tog input { position: absolute; opacity: 0; pointer-events: none; }
+  .tog:has(input:checked) { color: var(--sc-ink); border-color: var(--eh); }
+  .tog:has(input:focus-visible) { outline: 2px solid var(--sc-accent); outline-offset: 3px; }
+  .tog::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--panel-line-strong); }
+  .tog:has(input:checked)::before { background: var(--eh); }
+  .acts { display: flex; flex-wrap: wrap; gap: var(--sc-3); align-items: center; }
+  .saved { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-accent); opacity: 0; transition: opacity 200ms var(--sc-ease-out); }
+  .saved.on { opacity: 1; }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to settings</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__mark" href="index.html">Addon Forge</a>
+  <nav class="bar__pages" aria-label="Pages">
+    <a href="index.html">Home</a>
+    <a href="search.html">Search</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="settings.html" aria-current="page">Settings</a>
+  </nav>
+</header>
+
+<main id="main" class="page">
+  <div class="sc-wrap">
+    <h1>Settings</h1>
+    <p>Everything below is stored with <code>localStorage</code> in this browser, on this device. There is no account and no server behind this site, so there is nowhere else for any of it to go.</p>
+
+    <form class="set" id="form" style="margin-top: var(--sc-7)">
+
+      <section class="panel set__row">
+        <h2>OpenRouter key</h2>
+        <p>The index searches with no key at all. A key adds live web discovery on top, for addons that are not indexed yet. Requests go to openrouter.ai and to no other address.</p>
+        <input class="inp" id="key" name="key" type="password" autocomplete="off" spellcheck="false" placeholder="sk-or-v1-...">
+        <p><a href="https://openrouter.ai/keys" target="_blank" rel="noopener noreferrer">Get a key from openrouter.ai</a></p>
+      </section>
+
+      <section class="panel set__row">
+        <h2>Model</h2>
+        <p>Which model answers a discovery request. Auto picks a cheap, fast one. Any OpenRouter model id works if you type it in.</p>
+        <select class="inp" id="model" name="model">
+          <option value="auto">auto (openai/gpt-4o-mini)</option>
+          <option value="openai/gpt-4o-mini">openai/gpt-4o-mini</option>
+          <option value="anthropic/claude-3.5-haiku">anthropic/claude-3.5-haiku</option>
+          <option value="google/gemini-flash-1.5">google/gemini-flash-1.5</option>
+          <option value="custom">custom, type it below</option>
+        </select>
+        <input class="inp" id="modelCustom" type="text" autocomplete="off" spellcheck="false" placeholder="vendor/model-id" hidden>
+      </section>
+
+      <section class="panel set__row">
+        <h2>Engines</h2>
+        <p>Which engines the index and any discovery request cover.</p>
+        <div class="toggles" id="engines"></div>
+      </section>
+
+      <div class="acts">
+        <button class="btn" type="submit">Save settings</button>
+        <button class="btn btn--ghost" type="button" id="clear">Clear everything</button>
+        <span class="saved" id="saved" role="status">saved to this browser</span>
+      </div>
+    </form>
+  </div>
+</main>
+
+<aside class="feed" aria-label="Index per engine">
+  <div class="lane" data-e="blender"><span class="lane__k">BLN</span><span class="lane__track"><span class="lane__fill" data-lane="blender"></span></span><span class="lane__n num" data-lanen="blender">0</span></div>
+  <div class="lane" data-e="unreal"><span class="lane__k">UE5</span><span class="lane__track"><span class="lane__fill" data-lane="unreal"></span></span><span class="lane__n num" data-lanen="unreal">0</span></div>
+  <div class="lane" data-e="unity"><span class="lane__k">UNI</span><span class="lane__track"><span class="lane__fill" data-lane="unity"></span></span><span class="lane__n num" data-lanen="unity">0</span></div>
+  <div class="lane" data-e="daz"><span class="lane__k">DAZ</span><span class="lane__track"><span class="lane__fill" data-lane="daz"></span></span><span class="lane__n num" data-lanen="daz">0</span></div>
+</aside>
+
+<script src="catalog.js"></script>
+<script src="shared.js"></script>
+<script>
+(function () {
+  "use strict";
+  var STORE = "af.settings";
+  var ENG = ENGINES.map(function (e) { return e.id; });
+  var s = AFShared.read(STORE, null) || { key: "", model: "auto", engines: ENG.slice() };
+  if (!Array.isArray(s.engines) || !s.engines.length) s.engines = ENG.slice();
+
+  var keyEl = document.getElementById("key");
+  var modelEl = document.getElementById("model");
+  var customEl = document.getElementById("modelCustom");
+  var engBox = document.getElementById("engines");
+  var savedEl = document.getElementById("saved");
+
+  ENGINES.forEach(function (e) {
+    var l = document.createElement("label");
+    l.className = "tog";
+    l.style.setProperty("--eh", "var(--e-" + e.id + ")");
+    var i = document.createElement("input");
+    i.type = "checkbox"; i.value = e.id;
+    i.checked = s.engines.indexOf(e.id) !== -1;
+    l.appendChild(i);
+    l.appendChild(document.createTextNode(e.name));
+    engBox.appendChild(l);
+  });
+
+  keyEl.value = s.key || "";
+  var known = Array.prototype.some.call(modelEl.options, function (o) { return o.value === s.model; });
+  if (known) { modelEl.value = s.model; }
+  else { modelEl.value = "custom"; customEl.hidden = false; customEl.value = s.model; }
+
+  modelEl.addEventListener("change", function () {
+    customEl.hidden = modelEl.value !== "custom";
+    if (!customEl.hidden) customEl.focus();
+  });
+
+  document.getElementById("form").addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var model = modelEl.value === "custom" ? (customEl.value.trim() || "auto") : modelEl.value;
+    var engines = Array.prototype.filter.call(engBox.querySelectorAll("input"), function (i) { return i.checked; })
+      .map(function (i) { return i.value; });
+    if (!engines.length) engines = ENG.slice();
+    s = { key: keyEl.value.trim(), model: model, engines: engines };
+    AFShared.write(STORE, s);
+    AFShared.paintChrome();
+    savedEl.classList.add("on");
+    setTimeout(function () { savedEl.classList.remove("on"); }, 2200);
+  });
+
+  document.getElementById("clear").addEventListener("click", function () {
+    try { localStorage.removeItem(STORE); localStorage.removeItem("af.watchlist"); } catch (e) {}
+    keyEl.value = ""; modelEl.value = "auto"; customEl.hidden = true; customEl.value = "";
+    engBox.querySelectorAll("input").forEach(function (i) { i.checked = true; });
+    AFShared.paintChrome();
+    savedEl.textContent = "cleared from this browser";
+    savedEl.classList.add("on");
+    setTimeout(function () { savedEl.classList.remove("on"); savedEl.textContent = "saved to this browser"; }, 2200);
+  });
+})();
+</script>
+</body>
+</html>

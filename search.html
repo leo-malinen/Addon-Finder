@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Search · Addon Forge</title>
+<meta name="description" content="Plot the platforms you actually use on a drafting field and find the free addons that sit between them.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230B0C0E'/><rect x='7' y='14' width='18' height='4' rx='1' fill='%23FF5A3D'/><rect x='7' y='21' width='11' height='3' rx='1' fill='%23878E99'/><rect x='7' y='8' width='14' height='3' rx='1' fill='%23878E99'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+<style>
+  /* demoweb's origin plotter, wearing this site's graphite and vermilion
+     instead of its ink-on-paper. The field is the visual; the picker buttons
+     below it are the real control surface, so the page is keyboard operable
+     and behaves the same on touch and under reduced motion. */
+
+  .srch { display: grid; gap: var(--sc-5); grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); align-items: start; }
+  @media (max-width: 62rem) { .srch { grid-template-columns: 1fr; } }
+
+  .fld { padding: var(--sc-3); }
+  .fld svg { display: block; width: 100%; height: auto; touch-action: manipulation; }
+
+  .fld__min { stroke: rgba(236,238,242,0.045); stroke-width: 1; }
+  .fld__maj { stroke: rgba(236,238,242,0.10); stroke-width: 1; }
+
+  .fld__cons line {
+    stroke: var(--sc-accent); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0.75;
+  }
+  .fld__cons line[data-e="blender"] { stroke: var(--e-blender); }
+  .fld__cons line[data-e="unreal"]  { stroke: var(--e-unreal); }
+  .fld__cons line[data-e="unity"]   { stroke: var(--e-unity); }
+  .fld__cons line[data-e="daz"]     { stroke: var(--e-daz); }
+
+  .cat__d { fill: rgba(236,238,242,0.22); }
+  .cat__t {
+    fill: var(--sc-ink-soft); font-family: var(--sc-font-mono); font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .cat__t--e { text-anchor: end; }
+  .cat.is-near .cat__d { fill: var(--sc-accent); }
+  .cat.is-near .cat__t { fill: var(--sc-ink); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cat__d, .cat__t { transition: fill 220ms var(--sc-ease-out); }
+  }
+
+  .mark { cursor: pointer; }
+  .mark__hit { fill: transparent; }
+  .mark__o { fill: none; stroke: rgba(236,238,242,0.30); stroke-width: 1.5; }
+  .mark__i { fill: rgba(236,238,242,0.30); }
+  .mark__t {
+    fill: var(--sc-ink-soft); font-family: var(--sc-font-mono); font-size: 11px;
+    letter-spacing: 0.10em; text-anchor: middle;
+  }
+  .mark[data-e="blender"].is-on .mark__o { stroke: var(--e-blender); }
+  .mark[data-e="blender"].is-on .mark__i { fill: var(--e-blender); }
+  .mark[data-e="unreal"].is-on  .mark__o { stroke: var(--e-unreal); }
+  .mark[data-e="unreal"].is-on  .mark__i { fill: var(--e-unreal); }
+  .mark[data-e="unity"].is-on   .mark__o { stroke: var(--e-unity); }
+  .mark[data-e="unity"].is-on   .mark__i { fill: var(--e-unity); }
+  .mark[data-e="daz"].is-on     .mark__o { stroke: var(--e-daz); }
+  .mark[data-e="daz"].is-on     .mark__i { fill: var(--e-daz); }
+  .mark.is-on .mark__t { fill: var(--sc-ink); }
+  @media (hover: hover) and (pointer: fine) {
+    .mark:hover .mark__o { stroke: var(--sc-ink); }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .mark__o, .mark__i { transition: stroke 200ms var(--sc-ease-out), fill 200ms var(--sc-ease-out); }
+  }
+
+  .cross__r { fill: none; stroke: var(--sc-accent); stroke-width: 1.5; }
+  .cross__l { stroke: var(--sc-accent); stroke-width: 1.5; }
+  .cross { transition: opacity 200ms var(--sc-ease-out); }
+  @media (prefers-reduced-motion: no-preference) {
+    .cross { transition: transform 520ms var(--sc-ease-out), opacity 200ms var(--sc-ease-out); }
+  }
+
+  .pick { display: flex; flex-wrap: wrap; gap: var(--sc-2); }
+  .pickb {
+    display: inline-flex; align-items: center; gap: var(--sc-2);
+    min-height: 2.75rem; padding: 0 var(--sc-4);
+    background: none; color: var(--sc-ink-soft);
+    border: 1px solid var(--panel-line-strong); border-radius: var(--sc-r-pill);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
+    letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+    transition: color 140ms var(--sc-ease-out), border-color 140ms var(--sc-ease-out);
+  }
+  .pickb::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--panel-line-strong); }
+  .pickb[aria-pressed="true"] { color: var(--sc-ink); border-color: var(--eh); }
+  .pickb[aria-pressed="true"]::before { background: var(--eh); }
+  @media (hover: hover) and (pointer: fine) { .pickb:hover { color: var(--sc-ink); } }
+
+  .side { display: grid; gap: var(--sc-4); }
+  .side__b { padding: var(--sc-4); display: grid; gap: var(--sc-3); }
+  .coord {
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-lg);
+    font-variant-numeric: tabular-nums; color: var(--sc-accent); margin: 0;
+  }
+  .rec { display: flex; flex-wrap: wrap; gap: var(--sc-2); }
+  .rec__t {
+    display: inline-flex; align-items: baseline; gap: var(--sc-2);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs);
+    color: var(--sc-ink); background: var(--sc-canvas);
+    border: 1px solid var(--panel-line-strong); border-radius: var(--sc-r-pill);
+    padding: var(--sc-2) var(--sc-3);
+  }
+  .rec__t b { color: var(--sc-accent); font-weight: 500; }
+  .rec__none { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+  .how { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); line-height: var(--sc-leading-body); margin: 0; }
+  .how b { color: var(--sc-ink); font-weight: 500; }
+
+  /* On a phone the field scales to about 45% and an 11 unit label renders at
+     5px, which is decoration pretending to be information. demoweb specified
+     that the plotter degrades on touch, so the field keeps its geometry, the
+     marks keep their names, and the category names are carried by the readout
+     panel below it, which lists them with counts anyway. The picker buttons
+     are the control at this size; they are 44px. */
+  @media (max-width: 46rem) {
+    .cat__t { display: none; }
+    .cat__d { r: 5; }
+    .cat.is-near .cat__d { r: 8; }
+    .mark__t { font-size: 24px; }
+    .mark__o { stroke-width: 3; }
+    .fld__cons line { stroke-width: 3; stroke-dasharray: 9 9; }
+    .cross__r, .cross__l { stroke-width: 3; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to search</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="bar__mark" href="index.html">Addon Forge</a>
+  <nav class="bar__pages" aria-label="Pages">
+    <a href="index.html">Home</a>
+    <a href="search.html" aria-current="page">Search</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+</header>
+
+<main id="main" class="page">
+  <div class="sc-wrap">
+    <h1>Search</h1>
+    <p>Plot the platforms you actually use. The crosshair travels to the centre of that selection, and the categories nearest it are the ones your combination is best served by. Every recommendation is a real query against the index, not a picture of one.</p>
+
+    <div class="srch" style="margin-top: var(--sc-7)">
+
+      <div class="panel fld">
+        <svg id="field" viewBox="0 60 600 480" role="img"
+             aria-label="A drafting field with the four platforms marked around it. Use the platform buttons below to select.">
+        </svg>
+      </div>
+
+      <div class="side">
+        <div class="panel side__b">
+          <div class="panel__head mono" style="margin: calc(var(--sc-4) * -1) calc(var(--sc-4) * -1) 0; border-bottom: 1px solid var(--panel-line)">
+            <span>origin</span><b data-s-state>idle</b>
+          </div>
+          <p class="coord" data-coord>no selection</p>
+          <p class="how">The centroid of every platform you have picked, in field coordinates.</p>
+        </div>
+
+        <div class="panel side__b">
+          <div class="panel__head mono" style="margin: calc(var(--sc-4) * -1) calc(var(--sc-4) * -1) 0; border-bottom: 1px solid var(--panel-line)">
+            <span>nearest categories</span><span class="spacer"></span><b>the query</b>
+          </div>
+          <div class="rec" data-rec></div>
+          <p class="how">Positions are computed from the index itself: a category sits at the weighted centre of the platforms whose addons actually carry that tag. Nothing is placed by hand.</p>
+        </div>
+
+        <div class="panel side__b">
+          <div class="panel__head mono" style="margin: calc(var(--sc-4) * -1) calc(var(--sc-4) * -1) 0; border-bottom: 1px solid var(--panel-line)">
+            <span>platforms you use</span><span class="spacer"></span><b>tap a mark, or these</b>
+          </div>
+          <div class="pick" role="group" aria-label="Platforms you use">
+            <button class="pickb" type="button" data-pick="blender" aria-pressed="false" style="--eh: var(--e-blender)">Blender</button>
+            <button class="pickb" type="button" data-pick="unreal" aria-pressed="false" style="--eh: var(--e-unreal)">Unreal</button>
+            <button class="pickb" type="button" data-pick="unity" aria-pressed="false" style="--eh: var(--e-unity)">Unity</button>
+            <button class="pickb" type="button" data-pick="daz" aria-pressed="false" style="--eh: var(--e-daz)">Daz</button>
+          </div>
+          <label class="field" for="s-q">
+            <span class="field__c" aria-hidden="true">&gt;</span>
+            <input id="s-q" type="search" autocomplete="off" spellcheck="false"
+                   placeholder="narrow by name, licence or tag">
+          </label>
+          <button class="btn btn--ghost" type="button" data-clear style="justify-self: start">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: var(--sc-6)">
+      <div class="panel__head mono">
+        <span>results</span>
+        <b><span class="num" data-count-out>0</span> shown</b>
+        <span class="spacer"></span>
+        <span>real query against the index</span>
+      </div>
+      <div data-out></div>
+    </div>
+  </div>
+</main>
+
+<aside class="feed" aria-label="Results per engine">
+  <div class="lane" data-e="blender"><span class="lane__k">BLN</span><span class="lane__track"><span class="lane__fill" data-lane="blender"></span></span><span class="lane__n num" data-lanen="blender">0</span></div>
+  <div class="lane" data-e="unreal"><span class="lane__k">UE5</span><span class="lane__track"><span class="lane__fill" data-lane="unreal"></span></span><span class="lane__n num" data-lanen="unreal">0</span></div>
+  <div class="lane" data-e="unity"><span class="lane__k">UNI</span><span class="lane__track"><span class="lane__fill" data-lane="unity"></span></span><span class="lane__n num" data-lanen="unity">0</span></div>
+  <div class="lane" data-e="daz"><span class="lane__k">DAZ</span><span class="lane__track"><span class="lane__fill" data-lane="daz"></span></span><span class="lane__n num" data-lanen="daz">0</span></div>
+</aside>
+
+<script src="catalog.js"></script>
+<script src="taxonomy.js"></script>
+<script src="shared.js"></script>
+<script src="plotter.js"></script>
+</body>
+</html>

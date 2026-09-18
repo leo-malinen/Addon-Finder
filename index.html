@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Addon Forge · free addons for Blender, Unreal, Unity and Daz</title>
+<meta name="description" content="A hand-checked index of genuinely free addons for Blender, Unreal Engine, Unity and Daz Studio. Every licence named, every link to the real source. No account required.">
+<meta name="theme-color" content="#0B0C0E">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230B0C0E'/><rect x='7' y='14' width='18' height='4' rx='1' fill='%23FF5A3D'/><rect x='7' y='21' width='11' height='3' rx='1' fill='%23878E99'/><rect x='7' y='8' width='14' height='3' rx='1' fill='%23878E99'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<a class="skip" href="#top">Skip to the index</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- Chrome in demoweb's format: wordmark with an accent spine, five page links
+     in mono caps, current page holding the rule. Stacks to two rows below 46rem
+     rather than hiding behind a tap target. The engine filter is not navigation,
+     so it moved down to sit with the search field where it is actually used. -->
+<header class="bar">
+  <a class="bar__mark" href="index.html">Addon Forge</a>
+  <nav class="bar__pages" aria-label="Pages">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="search.html">Search</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="settings.html">Settings</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- 1 · RECOGNITION · pin + parallax planes. demoweb's plate 001, adapted:
+       on a light ground its plates sat on paper, on graphite it runs full bleed
+       instead. Three photographic/atmospheric planes at different rates plus
+       copy at 1x. The desk edge is a real cut from the plate with feathered
+       alpha, so it genuinely occludes the room as it rises. -->
+  <section id="plate-001" data-sc-act="pin" data-sc-span="2.2" data-sc-dwell="0.3">
+    <div data-sc-stage class="pl">
+      <div class="pl__planes" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 46rem)" srcset="assets/plate-001-m.webp">
+          <img class="pl__room" src="assets/plate-001.webp" data-sc-parallax="-1.4"
+               width="1920" height="1080" alt="">
+        </picture>
+        <span class="pl__glow" data-sc-parallax="-0.7"></span>
+      </div>
+      <div class="pl__floor" aria-hidden="true"></div>
+      <!-- The nearest plane sits ABOVE the floor fade. Inside the planes stack
+           it was being painted over by it, which is the same layering defect
+           demoweb recorded against its paper plane. -->
+      <img class="pl__fg" src="assets/plate-001-fg.webp" data-sc-parallax="0.9"
+           width="1920" height="152" alt="" aria-hidden="true">
+      <div class="pl__shade" aria-hidden="true"></div>
+
+      <div class="pl__copy" data-sc-cue="0 1 0 0.05">
+        <p class="plate__n mono">Plate 001 <span aria-hidden="true">·</span> Blender</p>
+        <h1>Free addons. Four engines.<br><em>One index.</em></h1>
+        <dl class="plabel">
+          <dt>package</dt>   <dd>.zip extension</dd>
+          <dt>manifest</dt>  <dd>blender_manifest.toml</dd>
+          <dt>licences</dt>  <dd data-pl-lic="blender">GPL-2.0</dd>
+          <dt>hosted</dt>    <dd data-pl-host="blender">blender.org</dd>
+          <dt>indexed</dt>   <dd><b class="num" data-pl-count="blender">0</b> free addons</dd>
+          <dt>checked</dt>   <dd data-pl-checked>2026-09-17</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · ABSORPTION · scrub. demoweb's one clip, scrubbed by the wheel. The
+       label greets (third cue value 0) because a pinned stage is visible a full
+       viewport before its progress leaves 0, and it sits on the RIGHT because
+       that is the dark side of this frame. Both are defects demoweb recorded
+       and fixed; no reason to rediscover them. -->
+  <section id="plate-002" data-sc-act="scrub" data-sc-span="2.0" data-sc-dwell="0.32">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/plate-002.webp" alt="">
+      <video data-sc-scrub data-sc-src="assets/plate-002.mp4"
+             data-sc-src-mobile="assets/plate-002-m.mp4" muted playsinline
+             width="1280" height="720"></video>
+      <div class="pl__shade pl__shade--r" aria-hidden="true"></div>
+
+      <div class="sc-copy sc-copy--trail pl__copy pl__copy--r" data-sc-cue="0 1 0 0.06">
+        <p class="plate__n mono">Plate 002 <span aria-hidden="true">·</span> Unreal Engine</p>
+        <h2>The free ones are on GitHub, not the storefront.</h2>
+        <dl class="plabel">
+          <dt>package</dt>   <dd>plugin folder</dd>
+          <dt>manifest</dt>  <dd>.uplugin</dd>
+          <dt>licences</dt>  <dd data-pl-lic="unreal">MIT</dd>
+          <dt>hosted</dt>    <dd data-pl-host="unreal">github.com</dd>
+          <dt>indexed</dt>   <dd><b class="num" data-pl-count="unreal">0</b> free addons</dd>
+          <dt>checked</dt>   <dd data-pl-checked>2026-09-17</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · RELIEF · pin + the crossfeed. THE PEAK. Largest span on the page.
+       It opens on an idle, empty index for the first 15% of its travel: that
+       silence is authored, not dead scroll. The stage itself is never empty,
+       because the chrome, the four lane rails and the status line are all
+       present at p = 0, which satisfies ground-or-greet. -->
+  <section id="query" data-sc-act="pin" data-sc-span="3.8" data-sc-dwell="0.3">
+    <div data-sc-stage>
+      <div class="query__stage">
+        <div class="query__inner">
+
+          <div class="query__cap mono" data-sc-cue="0 1 0 0">
+            <span>query</span>
+            <span data-q-state>idle</span>
+          </div>
+
+          <!-- The engine filter used to live in the nav bar. It is a filter, not
+               navigation, so it sits with the field it filters. -->
+          <div class="facets" role="group" aria-label="Filter by engine">
+            <button class="facet" type="button" data-facet="blender" aria-pressed="false" style="--fh: var(--e-blender)">Blender <span class="facet__n" data-count="blender">0</span></button>
+            <button class="facet" type="button" data-facet="unreal" aria-pressed="false" style="--fh: var(--e-unreal)">Unreal <span class="facet__n" data-count="unreal">0</span></button>
+            <button class="facet" type="button" data-facet="unity" aria-pressed="false" style="--fh: var(--e-unity)">Unity <span class="facet__n" data-count="unity">0</span></button>
+            <button class="facet" type="button" data-facet="daz" aria-pressed="false" style="--fh: var(--e-daz)">Daz <span class="facet__n" data-count="daz">0</span></button>
+            <span class="facets__s mono"><span class="live" data-status-index>index live</span> <b class="num" data-total>0</b> addons <span data-status-key>no key</span></span>
+          </div>
+
+          <label class="field" for="q-main">
+            <span class="field__c" aria-hidden="true">&gt;</span>
+            <input id="q-main" type="search" data-q-input autocomplete="off" spellcheck="false"
+                   placeholder="search 39 free addons across four engines">
+          </label>
+
+          <!-- the crossfeed, at full scale -->
+          <div class="bigfeed" role="group" aria-label="Results per engine">
+            <div class="bigline" data-e="blender"><span class="bigline__k">Blender</span><span class="bigline__track"><span class="bigline__fill" data-big="blender"></span></span><span class="bigline__n num" data-bign="blender">0</span></div>
+            <div class="bigline" data-e="unreal"><span class="bigline__k">Unreal</span><span class="bigline__track"><span class="bigline__fill" data-big="unreal"></span></span><span class="bigline__n num" data-bign="unreal">0</span></div>
+            <div class="bigline" data-e="unity"><span class="bigline__k">Unity</span><span class="bigline__track"><span class="bigline__fill" data-big="unity"></span></span><span class="bigline__n num" data-bign="unity">0</span></div>
+            <div class="bigline" data-e="daz"><span class="bigline__k">Daz</span><span class="bigline__track"><span class="bigline__fill" data-big="daz"></span></span><span class="bigline__n num" data-bign="daz">0</span></div>
+          </div>
+
+          <div class="panel query__out">
+            <div data-listing-main></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · TRUST · flow. Facts are information, not experience, so this is
+       compressed on purpose and starts its reveal near the top of the act. -->
+  <section class="sc-section record" style="padding-top: var(--sc-7)">
+    <div class="sc-wrap">
+      <div class="record__grid">
+        <div data-sc-in data-sc-stagger="70">
+          <h2>Six fields, or it is not in the index.</h2>
+          <p class="lede-sm">Licence, engine, host, source, tags and the date it was last checked. If a field cannot be filled from the project itself, the entry does not ship. That is why the counts are smaller than a scraper would give you.</p>
+          <p class="lede-sm" style="margin-top: var(--sc-4)">Nothing here links to a storefront, a mirror or a reupload. Every source is the project's own page.</p>
+        </div>
+        <div class="panel rec" data-sc-in>
+          <div class="panel__head mono"><span>record</span><b data-rec-id>001</b><span class="spacer"></span><span data-rec-engine>blender</span></div>
+          <dl>
+            <dt>name</dt>      <dd data-rec-name>Node Wrangler</dd>
+            <dt>engine</dt>    <dd data-rec-eng>Blender</dd>
+            <dt>licence</dt>   <dd data-rec-lic>GPL-2.0</dd>
+            <dt>host</dt>      <dd data-rec-host>blender.org</dd>
+            <dt>source</dt>    <dd><a data-rec-url href="#" rel="noopener noreferrer" target="_blank">docs.blender.org</a></dd>
+            <dt>tags</dt>      <dd data-rec-tags>nodes, shading, workflow</dd>
+            <dt>checked</dt>   <dd data-rec-checked>2026-09-17</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · REACH · pan. Lateral travel reads as breadth. Counts are real and
+       the imbalance is the finding, not a rounding error. -->
+  <section data-sc-act="pan" data-sc-span="2.8">
+    <div data-sc-stage>
+      <div class="rail" data-sc-pan="0.05">
+        <div class="rail__lead">
+          <h2>Four engines. Four very different ecosystems.</h2>
+          <p class="lede-sm">The counts below are not balanced, and nothing has been padded to make them look it.</p>
+        </div>
+
+        <article class="eng panel" data-e="blender">
+          <div class="eng__img"><img src="assets/eng-blender.webp" alt="A machined aluminium block, half raw faceted polygon and half smoothed organic form, with an anodised amber edge catching the light." width="1024" height="768" loading="lazy"></div>
+          <div class="eng__body">
+            <h3 class="eng__n">Blender</h3>
+            <p class="eng__c mono"><b data-engc="blender">0</b> <span>indexed</span></p>
+            <p class="eng__d">The deepest free ecosystem of the four. Ten ship with Blender itself under the GPL, the rest are open repositories.</p>
+          </div>
+        </article>
+
+        <article class="eng panel" data-e="unreal">
+          <div class="eng__img"><img src="assets/eng-unreal.webp" alt="A maquette of stacked optical glass slabs and steel columns with a hard beam of light refracting through it." width="1024" height="768" loading="lazy"></div>
+          <div class="eng__body">
+            <h3 class="eng__n">Unreal Engine</h3>
+            <p class="eng__c mono"><b data-engc="unreal">0</b> <span>indexed</span></p>
+            <p class="eng__d">Smaller and almost entirely on GitHub under MIT. Much of what gets called free here is really a storefront listing.</p>
+          </div>
+        </article>
+
+        <article class="eng panel" data-e="unity">
+          <div class="eng__img"><img src="assets/eng-unity.webp" alt="A stack of precision machined steel cubes with one cube lifted clear of its empty socket." width="1024" height="768" loading="lazy"></div>
+          <div class="eng__body">
+            <h3 class="eng__n">Unity</h3>
+            <p class="eng__c mono"><b data-engc="unity">0</b> <span>indexed</span></p>
+            <p class="eng__d">Split in two: first party packages under the Unity Companion licence, and a strong MIT community on GitHub.</p>
+          </div>
+        </article>
+
+        <article class="eng panel" data-e="daz">
+          <div class="eng__img"><img src="assets/eng-daz.webp" alt="An articulated wooden artist's mannequin with brass joints, seen from behind with one arm raised." width="1024" height="768" loading="lazy"></div>
+          <div class="eng__body">
+            <h3 class="eng__n">Daz Studio</h3>
+            <p class="eng__c mono"><b data-engc="daz">0</b> <span>indexed</span></p>
+            <p class="eng__d">The thinnest lane, and every entry is a bridge out to another application. Daz gives away figures, not tooling.</p>
+          </div>
+        </article>
+
+        <div class="rail__end">
+          <p class="lede-sm">Godot, Houdini, Maya and ZBrush are next. The index grows by what can be checked, not by what can be scraped.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · CONTROL · reveal. Administrative, so one wipe and no dwell. -->
+  <section class="sc-section keys" style="background: #101318">
+    <div class="sc-wrap">
+      <div class="keys__grid">
+        <div data-sc-in data-sc-stagger="70">
+          <h2>Your key. Your browser. Nowhere else.</h2>
+          <p class="lede-sm">The index above needs no key at all. Add an OpenRouter key in settings and the same field also searches the live web for addons that are not indexed yet.</p>
+          <p class="lede-sm" style="margin-top: var(--sc-4)">The key is written to this browser's local storage and sent to one address only, openrouter.ai. There is no server here to send it to.</p>
+          <a class="btn" href="settings.html" style="margin-top: var(--sc-5)">Open settings</a>
+        </div>
+        <div data-sc-reveal="left" data-sc-reveal-at="0.12 0.55">
+          <div class="panel">
+            <div class="panel__head mono"><span>settings</span><b>web discovery</b><span class="spacer"></span><span data-status-key-2>no key</span></div>
+            <div class="keys__body">
+              <div class="kv">
+                <label for="k-demo">OpenRouter key</label>
+                <div class="fake" id="k-demo" data-key-preview>not set</div>
+              </div>
+              <div class="kv">
+                <label for="m-demo">Model</label>
+                <div class="fake" id="m-demo" data-model-preview>auto</div>
+              </div>
+              <p class="note">Stored with <code>localStorage</code> on this device. Clearing your browser data removes it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · READINESS · pin + pointer. This grammar's close is a real input, not
+       a button island. The gap recorder writes what the index is MISSING, so
+       the page ends by recording an absence rather than asking for a lead.
+       One-value cues so nothing fades out before the page ends. Footer sits
+       inside the stage so there is no dead tail after it. -->
+  <section id="gap" data-sc-act="pin" data-sc-span="1.2">
+    <div data-sc-stage>
+      <div class="gap">
+        <div class="gap__stage">
+          <div class="gap__inner">
+            <p class="mono" style="color: var(--sc-ink-soft); margin: 0 0 var(--sc-3)" data-sc-cue="0 1 0 0">gap</p>
+            <h2 data-sc-cue="0.04">Searched and found nothing? Name it.</h2>
+            <p class="lede-sm" data-sc-cue="0.08">The index only knows what has been checked. Write down what is missing and this browser keeps the note, so you can pick it up next time you are here.</p>
+
+            <form class="gap__form" data-gap-form data-sc-cue="0.12" data-sc-rise="0">
+              <label class="field" for="q-gap">
+                <span class="field__c" aria-hidden="true">+</span>
+                <input id="q-gap" type="text" data-gap-input autocomplete="off" spellcheck="false" placeholder="what were you looking for?">
+              </label>
+              <button class="btn" type="submit" data-sc-magnet="0.26" data-sc-rise="0">Record the gap</button>
+            </form>
+
+            <div class="watch" data-watchlist role="status" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <footer class="foot">
+          <div>
+            <p class="mono" style="color: var(--sc-ink); margin: 0 0 var(--sc-2)">Addon Forge</p>
+            <p class="foot__note" style="margin: 0; font-size: var(--sc-t-sm)">An independent index. Not affiliated with Blender, Epic Games, Unity Technologies or Daz 3D. Engine names are the trademarks of their owners.</p>
+          </div>
+          <nav aria-label="Site">
+            <a href="search.html">Search</a>
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="settings.html">Settings</a>
+          </nav>
+        </footer>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- The crossfeed. Fixed for the whole page, driven by whatever the current
+     query is. This is the signature move. -->
+<aside class="feed" aria-label="Results per engine">
+  <div class="lane" data-e="blender"><span class="lane__k">BLN</span><span class="lane__track"><span class="lane__fill" data-lane="blender"></span></span><span class="lane__n num" data-lanen="blender">0</span></div>
+  <div class="lane" data-e="unreal"><span class="lane__k">UE5</span><span class="lane__track"><span class="lane__fill" data-lane="unreal"></span></span><span class="lane__n num" data-lanen="unreal">0</span></div>
+  <div class="lane" data-e="unity"><span class="lane__k">UNI</span><span class="lane__track"><span class="lane__fill" data-lane="unity"></span></span><span class="lane__n num" data-lanen="unity">0</span></div>
+  <div class="lane" data-e="daz"><span class="lane__k">DAZ</span><span class="lane__track"><span class="lane__fill" data-lane="daz"></span></span><span class="lane__n num" data-lanen="daz">0</span></div>
+</aside>
+
+<script src="catalog.js"></script>
+<script src="app.js"></script>
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+</body>
+</html>
